@@ -3,13 +3,14 @@ import sqlite3
 from datetime import datetime
 
 def init_db():
-    conn = sqlite3.connect("users.db")
+    conn = sqlite3.connect("users.db", timeout=20)
     conn.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
             email TEXT UNIQUE,
             password TEXT
+            tag TEXT
         )
     """)
     conn.execute("""
@@ -23,21 +24,8 @@ def init_db():
     conn.commit()
     conn.close()
 
-def initms_db():
-    conn = sqlite3.connect("messages.db")
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS messages (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            author TEXT,
-            text TEXT,
-            created_at TIMESTAMP
-        )
-    """)
-    conn.commit()
-    conn.close()
 
 init_db()
-initms_db()
 
 app = Flask(__name__)
 app.secret_key = "dgram-secret-key456"
@@ -47,7 +35,7 @@ def home():
     if "user_id" not in session:
         return render_template("welcome.html")
     
-    conn = sqlite3.connect("users.db")
+    conn = sqlite3.connect("users.db", timeout=20)
     user = conn.execute(
         "SELECT name, email, password FROM users WHERE id = ?",
         (session["user_id"],)
@@ -64,7 +52,7 @@ def home():
 def account():
     if "user_id" not in session:
         return render_template("welcome.html")
-    conn = sqlite3.connect("users.db")
+    conn = sqlite3.connect("users.db", timeout=20)
     if request.method == "POST":
         name = request.form["name"]
         email = request.form["email"]
@@ -95,7 +83,7 @@ def wall():
     if request.method == "POST":
         text = request.form["text"]
         if text:
-            conn = sqlite3.connect("users.db")
+            conn = sqlite3.connect("users.db", timeout=20)
             conn.execute(
                 "INSERT INTO messages (user_id, text) VALUES (?, ?)",
                 (session["user_id"], text)
@@ -104,7 +92,7 @@ def wall():
             conn.close()
         return redirect("/wall")
     
-    conn = sqlite3.connect("users.db")
+    conn = sqlite3.connect("users.db", timeout=20)
     rows = conn.execute("""
         SELECT users.name, messages.text, messages.created_at
         FROM messages
@@ -151,7 +139,7 @@ def login():
         email = request.form["email"]
         password = request.form["password"]
         
-        conn = sqlite3.connect("users.db")
+        conn = sqlite3.connect("users.db", timeout=20)
         user = conn.execute(
             "SELECT id, name FROM users WHERE email = ? AND password = ?",
             (email, password)
@@ -175,7 +163,7 @@ def register():
         password = request.form["password"]
         tag = request.form["tag"]
         
-        conn = sqlite3.connect("users.db")
+        conn = sqlite3.connect("users.db", timeout=20)
         conn.execute(
                 "INSERT INTO users (name, email, password, tag) VALUES (?, ?, ?, ?)",
                 (name, email, password, tag)
