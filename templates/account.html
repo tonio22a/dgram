@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Аккаунт{% endblock %}
+
+{% block content %}
+<!-- Верхняя панель -->
+<div class="header-container">
+    <div class="faq">
+        <div class="faq-header">Политика</div>
+        <div class="faq-content">
+                <p><b>Измените данные аккаунта здесь. Изменение тега на данный момент недоступно.</b></p>
+                <p class="spacer">⠀</p>
+                <form method="POST">
+                    <input name="name" placeholder="Имя" required>
+                    <input name="email" type="email" placeholder="Email" required>
+                    <input name="password" type="password" placeholder="Пароль" required>
+                    <button type="submit">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

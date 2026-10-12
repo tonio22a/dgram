@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}DGram{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- ЛЕВОЕ МЕНЮ -->
+    <div class="items">
+        <div class="items-header">Dgram</div>
+        <div class="items-content">
+            <div class="nav-row">
+                <div class="profile">
+                    <a href="/"><button>Главная</button></a>
+                </div>
+                <!-- <div class="fr1N">
+                    <a href="/friends"><button>Друзья</button></a>
+                </div> -->
+                <div class="wall-link">
+                    <a href="/wall"><button>Стена</button></a>
+                </div>
+                <div class="account">
+                    <a href="/account"><button>Аккаунт</button></a>
+                </div>
+                <div class="invite">
+                    <a href="/invites"><button>Приглашения</button></a>
+                </div>
+                <div class="logoutIT">
+                    <a href="/logout"><button>Выйти</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <footer class="footer">
+            <a href="/contact"><button>Контакты</button></a>
+            <a href="/faq"><button>FAQ</button></a>
+            <a href="/politic"><button>Политика</button></a>
+            <p>a Tigran Gevorkyan production</p>
+            <p>Dgram © 2026</p>
+        </footer>
+
+    <!-- КОНТЕНТ СТРАНИЦЫ -->
+    {% block content %}{% endblock %}
+
+</body>
+</html>
